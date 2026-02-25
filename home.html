@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System - Project Presentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 40px 60px;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Title Slide */
+        .slide-title {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-title h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .slide-title .details {
+            font-size: 1.2rem;
+            line-height: 2;
+        }
+
+        .slide-title .details span {
+            display: block;
+        }
+
+        .slide-title .college {
+            font-size: 1.3rem;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+
+        /* Slide Headers */
+        .slide h2 {
+            font-size: 2.2rem;
+            color: #667eea;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slide h2 i {
+            color: #764ba2;
+        }
+
+        .slide h3 {
+            font-size: 1.4rem;
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .slide ul {
+            margin-left: 30px;
+        }
+
+        .slide li {
+            margin-bottom: 12px;
+        }
+
+        /* Content Box */
+        .content-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .content-box.warning {
+            border-left-color: #f39c12;
+            background: #fffbf0;
+        }
+
+        .content-box.success {
+            border-left-color: #2ecc71;
+            background: #f0fff4;
+        }
+
+        .content-box.danger {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .column {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        /* Architecture Diagram */
+        .architecture-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .arrow {
+            display: inline-block;
+            font-size: 2rem;
+            color: #667eea;
+            margin: 0 15px;
+            vertical-align: middle;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Module Cards */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .module-card h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-card ul {
+            margin-left: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Advantage Cards */
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .advantage-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .advantage-card:hover {
+            transform: scale(1.05);
+        }
+
+        .advantage-card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .advantage-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Limitation Cards */
+        .limitation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .limitation-card {
+            background: #fff5f5;
+            border: 2px solid #e74c3c;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .limitation-card.warning {
+            background: #fffbf0;
+            border-color: #f39c12;
+        }
+
+        .limitation-card.future {
+            background: #f0fff4;
+            border-color: #2ecc71;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 600;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Thank You Slide */
+        .slide-thankyou {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-thankyou h1 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+
+        .slide-thankyou p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .slide-thankyou .contact {
+            margin-top: 50px;
+            font-size: 1.2rem;
+        }
+
+        /* Demo Slide */
+        .slide-demo {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+
+        .slide-demo h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .slide-demo p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .slide-demo i {
+            font-size: 5rem;
+            margin-bottom: 30px;
+        }
+
+        /* Flow Diagram */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        /* Database Schema */
+        .db-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .db-card h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .db-card code {
+            background: #e8e8e8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #764ba2;
+            font-size: 0.9rem;
+        }
+
+        /* Bullet points with icons */
+        .bullet-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .bullet-list li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .bullet-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+        }
+
+        .bullet-list.warning li::before {
+            color: #f39c12;
+        }
+
+        /* Requirements Grid */
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .req-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .req-section h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Conclusion Box */
+        .conclusion-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .conclusion-box h3 {
+            color: white;
+        }
+
+        /* References */
+        .ref-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .ref-list li {
+            padding: 15px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        /* Screenshot Placeholder */
+        .screenshot-placeholder {
+            background: #e8e8e8;
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            padding: 60px;
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .screenshot-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active" data-slide="1">
+            <h1><i class="fas fa-clipboard-check"></i> Smart Attendance System</h1>
+            <p class="subtitle">A Web-Based Attendance Management Solution</p>
+            <div class="details">
+                <span><i class="fas fa-user"></i> Your Name</span>
+                <span><i class="fas fa-hashtag"></i> Register Number: XXXXXXXX</span>
+                <span><i class="fas fa-graduation-cap"></i> Branch: Computer Engineering</span>
+            </div>
+            <p class="college"><i class="fas fa-university"></i> College Name</p>
+            <p style="margin-top: 20px; opacity: 0.8;">Guide: Guide Name | Academic Year: 2024-2025</p>
+        </div>
+
+        <!-- Slide 2: Introduction -->
+        <div class="slide" data-slide="2">
+            <h2><i class="fas fa-lightbulb"></i> Introduction</h2>
+            
+            <div class="content-box">
+                <h3>Domain</h3>
+                <p>Web-based Attendance Management System with RFID Integration</p>
+            </div>
+
+            <div class="content-box warning">
+                <h3>Background of the Problem</h3>
+                <ul class="bullet-list warning">
+                    <li>Manual attendance tracking is error-prone and time-consuming</li>
+                    <li>Paper-based records are difficult to maintain and search</li>
+                    <li>No real-time tracking or instant notifications</li>
+                    <li>Difficult to generate accurate reports and analytics</li>
+                </ul>
+            </div>
+
+            <div class="content-box success">
+                <h3>Why This Project is Important</h3>
+                <ul class="bullet-list">
+                    <li>Automates tedious manual attendance processes</li>
+                    <li>Reduces human errors in record-keeping</li>
+                    <li>Provides instant access to attendance data</li>
+                    <li>Enables parent notifications for student absenteeism</li>
+                </ul>
+            </div>
+
+            <div class="content-box">
+                <h3>Real-World Relevance</h3>
+                <p>Essential for educational institutions, corporate offices, and training centers. Can be deployed in schools, colleges, universities, and organizations of all sizes.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Problem Statement -->
+        <div class="slide" data-slide="3">
+            <h2><i class="fas fa-exclamation-triangle"></i> Problem Statement</h2>
+            
+            <div class="content-box">
+                <h3>Clear Definition</h3>
+                <p>Students and staff face delays and inaccuracies with current attendance and student management systems. Manual entry leads to mistakes, no centralized reporting facility, and difficulty in generating attendance summaries.</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Issues in Existing System</h3>
+                    <ul>
+                        <li>Manual entry leads to mistakes</li>
+                        <li>No centralized reporting facility</li>
+                        <li>Difficult to generate attendance summaries</li>
+                        <li>Time-consuming process</li>
+                        <li>No automated notifications</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Limitations Faced by Users</h3>
+                    <ul>
+                        <li>Inability to access records remotely</li>
+                        <li>Lack of performance metrics</li>
+                        <li>No real-time insights</li>
+                        <li>Difficulty in tracking patterns</li>
+                        <li>Limited accessibility</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Objectives -->
+        <div class="slide" data-slide="4">
+            <h2><i class="fas fa-bullseye"></i> Objectives</h2>
+            
+            <div class="content-box">
+                <h3>Main Goal</h3>
+                <p style="font-size: 1.2rem;">Develop a web-based system for managing attendance and student information with reporting capabilities.</p>
+            </div>
+
+            <div class="content-box success">
+                <h3>Specific Objectives</h3>
+                <ul class="bullet-list">
+                    <li>Implement secure login for students, staff, and administrators</li>
+                    <li>Provide modules for marking attendance manually and via RFID</li>
+                    <li>Generate printable reports and dashboards</li>
+                    <li>Maintain a database of students, staff, and attendance data</li>
+                    <li>Facilitate easy administration and user management</li>
+                    <li>Send automatic notifications to parents about attendance</li>
+                </ul>
+            </div>
+
+            <div class="content-box">
+                <h3>Expected Outcomes</h3>
+                <div class="advantage-grid">
+                    <div class="advantage-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>Reduced Time</h4>
+                    </div>
+                    <div class="advantage-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Improved Accuracy</h4>
+                    </div>
+                    <div class="advantage-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h4>Scalable Architecture</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Existing System -->
+        <div class="slide" data-slide="5">
+            <h2><i class="fas fa-history"></i> Existing System</h2>
+            
+            <div class="two-columns">
+                <div class="column">
+                    <h3>How Current System Works</h3>
+                    <ul>
+                        <li>Attendance recorded in registers</li>
+                        <li>Paper-based logbooks</li>
+                        <li>Manual calculation of attendance</li>
+                        <li>Physical file storage</li>
+                        <li>Verbal or phone notifications</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Technologies Used</h3>
+                    <ul>
+                        <li>Paper and pen</li>
+                        <li>Spreadsheets (Excel)</li>
+                        <li>Basic desktop applications</li>
+                        <li>Physical file cabinets</li>
+                        <li>Phone calls for notifications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-box danger">
+                <h3>Drawbacks & Limitations</h3>
+                <ul class="bullet-list warning">
+                    <li>No central database - data is siloed</li>
+                    <li>Lack of security and access control</li>
+                    <li>Inflexible reporting</li>
+                    <li>Prone to human errors</li>
+                    <li>Time-consuming data retrieval</li>
+                    <li>No automation capabilities</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: Proposed System -->
+        <div class="slide" data-slide="6">
+            <h2><i class="fas fa-rocket"></i> Proposed System</h2>
+            
+            <div class="content-box">
+                <h3>Overview</h3>
+                <p>A PHP/MySQL web application accessible through a browser. It supports role-based access (admin, staff, students) with RFID integration for automated attendance marking.</p>
+            </div>
+
+            <div class="content-box success">
+                <h3>How It Solves the Problem</h3>
+                <ul class="bullet-list">
+                    <li>Centralized database for all attendance records</li>
+                    <li>Real-time attendance tracking</li>
+                    <li>Automated report generation</li>
+                    <li>Instant parent notifications via email</li>
+                    <li>RFID-based quick attendance marking</li>
+                    <li>Role-based access control</li>
+                </ul>
+            </div>
+
+            <div class="content-box">
+                <h3>Advantages Over Existing System</h3>
+                <div class="advantage-grid">
+                    <div class="advantage-card">
+                        <i class="fas fa-database"></i>
+                        <h4>Centralized Data</h4>
+                    </div>
+                    <div class="advantage-card">
+                        <i class="fas fa-bolt"></i>
+                        <h4>Real-Time Access</h4>
+                    </div>
+                    <div class="advantage-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Secure Auth</h4>
+                    </div>
+                    <div class="advantage-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Web-Based</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: System Architecture -->
+        <div class="slide" data-slide="7">
+            <h2><i class="fas fa-sitemap"></i> System Architecture</h2>
+            
+            <div class="content-box" style="text-align: center;">
+                <h3>Block Diagram</h3>
+                <div style="margin: 30px 0;">
+                    <div class="architecture-box" style="display: inline-block;">Client Browser</div>
+                </div>
+                <div style="font-size: 2rem; color: #667eea;">↓</div>
+                <div class="architecture-box" style="display: inline-block;">Apache Web Server + PHP</div>
+                <div style="font-size: 2rem; color: #667eea;">↓</div>
+                <div class="architecture-box" style="display: inline-block;">MySQL Database</div>
+                <div style="font-size: 2rem; color: #667eea;">↓</div>
+                <div class="architecture-box" style="display: inline-block;">RFID Reader (Optional)</div>
+                <br><br>
+                <p style="margin-top: 20px; font-size: 1rem;">Optional: RFID hardware for automated attendance scanning</p>
+            </div>
+
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Components</h3>
+                    <ul>
+                        <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                        <li><strong>Backend:</strong> PHP scripts</li>
+                        <li><strong>Database:</strong> MySQL 4 databases</li>
+                        <li><strong>RFID Module:</strong> Hardware integration</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Working Flow</h3>
+                    <ol style="margin-left: 20px;">
+                        <li>User accesses via browser</li>
+                        <li>Login authentication</li>
+                        <li>Role-specific dashboard</li>
+                        <li>Mark/View attendance</li>
+                        <li>Generate reports</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Hardware and Software Requirements -->
+        <div class="slide" data-slide="8">
+            <h2><i class="fas fa-laptop-code"></i> Hardware & Software Requirements</h2>
+            
+            <div class="req-grid">
+                <div class="req-section">
+                    <h4><i class="fas fa-code"></i> Programming Languages</h4>
+                    <ul>
+                        <li><strong>Backend:</strong> PHP 7+</li>
+                        <li><strong>Frontend:</strong> JavaScript</li>
+                    </ul>
+                </div>
+                <div class="req-section">
+                    <h4><i class="fas fa-paint-brush"></i> Frontend Technologies</h4>
+                    <ul>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>Bootstrap</li>
+                        <li>jQuery</li>
+                    </ul>
+                </div>
+                <div class="req-section">
+                    <h4><i class="fas fa-server"></i> Backend & Server</h4>
+                    <ul>
+                        <li>PHP 7+</li>
+                        <li>Apache Server (XAMPP/WAMP)</li>
+                        <li>phpMyAdmin</li>
+                    </ul>
+                </div>
+                <div class="req-section">
+                    <h4><i class="fas fa-database"></i> Database</h4>
+                    <ul>
+                        <li>MySQL 5.7/8.0</li>
+                        <li>4 Separate Databases</li>
+                    </ul>
+                </div>
+                <div class="req-section">
+                    <h4><i class="fas fa-tools"></i> Development Tools</h4>
+                    <ul>
+                        <li>VS Code</li>
+                        <li>XAMPP/WAMP</li>
+                        <li>Git</li>
+                        <li>phpMyAdmin</li>
+                    </ul>
+                </div>
+                <div class="req-section">
+                    <h4><i class="fas fa-microchip"></i> Hardware</h4>
+                    <ul>
+                        <li>PC/Server (Apache + MySQL)</li>
+                        <li>RFID Reader (Optional)</li>
+                        <li>RFID Tags/Cards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Modules Description -->
+        <div class="slide" data-slide="9">
+            <h2><i class="fas fa-th-large"></i> Modules Description</h2>
+            
+            <div class="module-grid">
+                <div class="module-card">
+                    <h4><i class="fas fa-user-shield"></i> Authentication Module</h4>
+                    <ul>
+                        <li>Login/Logout for all roles</li>
+                        <li>Session management</li>
+                        <li>Password hashing</li>
+                        <li>Role-based access</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-user-graduate"></i> Student Module</h4>
+                    <ul>
+                        <li>View attendance</li>
+                        <li>Check personal details</li>
+                        <li>View announcements</li>
+                        <li>View success stories</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-user-tie"></i> Staff Module</h4>
+                    <ul>
+                        <li>Mark attendance (Manual/RFID)</li>
+                        <li>Add/Remove students</li>
+                        <li>Generate reports</li>
+                        <li>Send notifications</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-crown"></i> Admin Module</h4>
+                    <ul>
+                        <li>User management</li>
+                        <li>Manage periods</li>
+                        <li>View all reports</li>
+                        <li>System configuration</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-chart-bar"></i> Reporting Module</h4>
+                    <ul>
+                        <li>Bunk reports</li>
+                        <li>Attendance summaries</li>
+                        <li>Print student lists</li>
+                        <li>Export data</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-envelope"></i> Notification Module</h4>
+                    <ul>
+                        <li>Email notifications</li>
+                        <li>Parent alerts</li>
+                        <li>General notices</li>
+                        <li>Success story updates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Database Design -->
+        <div class="slide" data-slide="10">
+            <h2><i class="fas fa-database"></i> Database Design</h2>
+            
+            <div class="content-box">
+                <h3>Multi-Database Architecture</h3>
+                <p>The system uses 4 separate databases for efficient data management:</p>
+                <table class="data-table">
+                    <tr>
+                        <th>Database</th>
+                        <th>Purpose</th>
+                        <th>Key Tables</th>
+                    </tr>
+                    <tr>
+                        <td>admin_system</td>
+                        <td>Admin users, success stories</td>
+                        <td>users, admin_users, success_stories</td>
+                    </tr>
+                    <tr>
+                        <td>staff_system</td>
+                        <td>Staff management</td>
+                        <td>staff, staff_assignments</td>
+                    </tr>
+                    <tr>
+                        <td>student_system</td>
+                        <td>Student information</td>
+                        <td>students</td>
+                    </tr>
+                    <tr>
+                        <td>attendance_system</td>
+                        <td>Attendance tracking</td>
+                        <td>day_attendance, period_attendance, periods</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Key Tables</h3>
+                    <ul>
+                        <li><code>users</code> - User accounts</li>
+                        <li><code>students</code> - Student details</li>
+                        <li><code>staff</code> - Staff information</li>
+                        <li><code>day_attendance</code> - Daily attendance</li>
+                        <li><code>period_attendance</code> - Period-wise</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Key Fields</h3>
+                    <ul>
+                        <li><strong>Primary Keys:</strong> id fields</li>
+                        <li><strong>Foreign Keys:</strong> student_id, staff_id, admin_id</li>
+                        <li><strong>Unique:</strong> roll_no, rfid_uid</li>
+                        <li><strong>Indexes:</strong> For fast queries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Data Flow Diagram -->
+        <div class="slide" data-slide="11">
+            <h2><i class="fas fa-project-diagram"></i> Data Flow Diagram</h2>
+            
+            <div class="content-box">
+                <h3>Attendance Marking Flow</h3>
+                <div class="flow-container">
+                    <div class="flow-step">Student Scans RFID / Staff Selects</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Server Processes Request</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Validate Student & Period</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Save to Database</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Display Confirmation</div>
+                </div>
+            </div>
+
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Key Logic</h3>
+                    <ul>
+                        <li>Authentication check on each page</li>
+                        <li>Prevent duplicate entries</li>
+                        <li>Role-based access control</li>
+                        <li>Admin ID filtering for multi-tenancy</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Bunk Report Flow</h3>
+                    <ol style="margin-left: 20px; font-size: 0.95rem;">
+                        <li>Query absent/late students</li>
+                        <li>Group by student</li>
+                        <li>Get parent email</li>
+                        <li>Generate report</li>
+                        <li>Send email notification</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Implementation -->
+        <div class="slide" data-slide="12">
+            <h2><i class="fas fa-cogs"></i> Implementation</h2>
+            
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Login Page</h3>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login Page Screenshot
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Dashboard</h3>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard Screenshot
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box">
+                <h3>Main Features Implemented</h3>
+                <ul class="bullet-list">
+                    <li>Role-based login (Admin, Staff, Student, Chairman, Super Admin)</li>
+                    <li>RFID-based attendance marking</li>
+                    <li>Manual attendance entry</li>
+                    <li>Period-wise tracking (8 periods/day)</li>
+                    <li>Bunking reports generation</li>
+                    <li>Parent email notifications</li>
+                    <li>Success stories management</li>
+                    <li>Responsive design</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 13: Results & Output -->
+        <div class="slide" data-slide="13">
+            <h2><i class="fas fa-chart-pie"></i> Results & Output</h2>
+            
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Output Screenshots</h3>
+                    <div class="screenshot-placeholder">
+                        <i class="fas fa-file-alt"></i>
+                        Report Output Screenshot
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Performance Results</h3>
+                    <ul>
+                        <li>Fast page load (< 1 second)</li>
+                        <li>Efficient database queries</li>
+                        <li>Real-time updates</li>
+                        <li>Responsive on all devices</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-box success">
+                <h3>Testing Results</h3>
+                <ul class="bullet-list">
+                    <li>All login scenarios tested and working</li>
+                    <li>Attendance marking verified</li>
+                    <li>Report generation accurate</li>
+                    <li>Email notifications sent successfully</li>
+                    <li>No critical bugs found</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: Advantages -->
+        <div class="slide" data-slide="14">
+            <h2><i class="fas fa-star"></i> Advantages</h2>
+            
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>Time Saving</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Automates clerical work, reduces administrative overhead by 80%</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h4>Cost Effective</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Uses open-source stack (PHP, MySQL, Apache)</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-smile"></i>
+                    <h4>User Friendly</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Intuitive UI with role-specific dashboards</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Secure</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Password hashing, session management, role-based access</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <h4>Scalable</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Modular design allows easy addition of new features</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Automated Notifications</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Parents stay informed about attendance patterns</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Limitations -->
+        <div class="slide" data-slide="15">
+            <h2><i class="fas fa-exclamation-circle"></i> Limitations</h2>
+            
+            <div class="limitation-grid">
+                <div class="limitation-card">
+                    <h4><i class="fas fa-wifi"></i> Internet Dependency</h4>
+                    <p>Requires network access for web-based functionality</p>
+                </div>
+                <div class="limitation-card">
+                    <h4><i class="fas fa-users"></i> User Scope</h4>
+                    <p>Currently limited to institutional staff and students</p>
+                </div>
+                <div class="limitation-card warning">
+                    <h4><i class="fas fa-microchip"></i> Hardware Reliance</h4>
+                    <p>RFID functionality requires compatible readers</p>
+                </div>
+                <div class="limitation-card warning">
+                    <h4><i class="fas fa-database"></i> Local Deployment</h4>
+                    <p>Currently runs on local XAMPP server, not cloud-based</p>
+                </div>
+                <div class="limitation-card future">
+                    <h4><i class="fas fa-language"></i> Language Support</h4>
+                    <p>Single language (English) support currently</p>
+                </div>
+                <div class="limitation-card future">
+                    <h4><i class="fas fa-clock"></i> Real-time Sync</h4>
+                    <p>Page refresh required for latest data</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Future Enhancements -->
+        <div class="slide" data-slide="16">
+            <h2><i class="fas fa-rocket"></i> Future Enhancements</h2>
+            
+            <div class="module-grid">
+                <div class="module-card">
+                    <h4><i class="fas fa-mobile-alt"></i> Mobile Application</h4>
+                    <ul>
+                        <li>Android app</li>
+                        <li>iOS app</li>
+                        <li>Push notifications</li>
+                        <li>Offline support</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-brain"></i> AI/ML Integration</h4>
+                    <ul>
+                        <li>Predictive analytics</li>
+                        <li>Absenteeism patterns</li>
+                        <li>Student performance correlation</li>
+                        <li>Automated insights</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-cloud"></i> Cloud Deployment</h4>
+                    <ul>
+                        <li>AWS deployment</li>
+                        <li>Azure hosting</li>
+                        <li>High availability</li>
+                        <li>Auto-scaling</li>
+                    </ul>
+                </div>
+                <div class="module-card">
+                    <h4><i class="fas fa-plus-circle"></i> Additional Features</h4>
+                    <ul>
+                        <li>Fee management module</li>
+                        <li>Library management</li>
+                        <li>Transport tracking</li>
+                        <li>Multi-language support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Conclusion -->
+        <div class="slide" data-slide="17">
+            <h2><i class="fas fa-flag-checkered"></i> Conclusion</h2>
+            
+            <div class="conclusion-box">
+                <h3>Summary of Project</h3>
+                <p>The Smart Attendance System successfully addresses the problem of inefficient attendance and student management by providing a secure, web-based solution with automated RFID tracking, role-based access control, and comprehensive reporting capabilities.</p>
+            </div>
+
+            <div class="content-box success">
+                <h3>Achievement of Objectives</h3>
+                <ul class="bullet-list">
+                    <li>✅ Secure login for all user roles implemented</li>
+                    <li>✅ Manual and RFID attendance marking working</li>
+                    <li>✅ Reports and dashboards generated successfully</li>
+                    <li>✅ Database fully operational with all tables</li>
+                    <li>✅ Email notifications functioning properly</li>
+                </ul>
+            </div>
+
+            <div class="content-box">
+                <h3>Real-World Impact</h3>
+                <p>This system can be deployed in educational institutions to significantly reduce manual work, improve accuracy, and provide better communication between teachers, students, and parents.</p>
+            </div>
+        </div>
+
+        <!-- Slide 18: References -->
+        <div class="slide" data-slide="18">
+            <h2><i class="fas fa-book"></i> References</h2>
+            
+            <ul class="ref-list">
+                <li>
+                    <strong>PHP Documentation</strong><br>
+                    <a href="https://www.php.net/docs.php" style="color: #667eea;">https://www.php.net/docs.php</a>
+                </li>
+                <li>
+                    <strong>MySQL Documentation</strong><br>
+                    <a href="https://dev.mysql.com/doc/" style="color: #667eea;">https://dev.mysql.com/doc/</a>
+                </li>
+                <li>
+                    <strong>W3Schools PHP Tutorial</strong><br>
+                    <a href="https://www.w3schools.com/php/" style="color: #667eea;">https://www.w3schools.com/php/</a>
+                </li>
+                <li>
+                    <strong>Bootstrap Documentation</strong><br>
+                    <a href="https://getbootstrap.com/docs/" style="color: #667eea;">https://getbootstrap.com/docs/</a>
+                </li>
+                <li>
+                    <strong>RFID Technology References</strong><br>
+                    Various online resources on RFID integration with PHP
+                </li>
+            </ul>
+        </div>
+
+        <!-- Slide 19: Demo -->
+        <div class="slide slide-demo" data-slide="19">
+            <i class="fas fa-play-circle"></i>
+            <h1>Live Demonstration</h1>
+            <p>Let's see the system in action</p>
+        </div>
+
+        <!-- Slide 20: Thank You -->
+        <div class="slide slide-thankyou" data-slide="20">
+            <h1>Thank You!</h1>
+            <p>Questions?</p>
+            <div class="contact">
+                <p><i class="fas fa-envelope"></i> your.email@example.com</p>
+                <p><i class="fas fa-phone"></i> +91XXXXXXXXXX</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">20</span>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 20;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            document.querySelector(`[data-slide="${currentSlide}"]`).classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
+
